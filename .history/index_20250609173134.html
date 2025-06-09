@@ -32,35 +32,6 @@
             overflow: hidden;
         }
 
-        .hero-wallpaper {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 0;
-            background-image: 
-                url('overnerd-comic-images/covers/cover-01.jpg'),
-                url('overnerd-comic-images/covers/cover-08.jpg'),
-                url('overnerd-comic-images/covers/cover-15.jpg'),
-                url('overnerd-comic-images/covers/cover-22.jpg'),
-                url('overnerd-comic-images/covers/cover-29.jpg'),
-                url('overnerd-comic-images/covers/cover-36.jpg'),
-                url('overnerd-comic-images/covers/cover-43.jpg'),
-                url('overnerd-comic-images/covers/cover-50.jpg'),
-                url('overnerd-comic-images/covers/cover-57.jpg'),
-                url('overnerd-comic-images/covers/cover-64.jpg'),
-                url('overnerd-comic-images/covers/cover-71.jpg'),
-                url('overnerd-comic-images/covers/cover-04.jpg');
-            background-size: 25% 33.33%, 25% 33.33%, 25% 33.33%, 25% 33.33%, 25% 33.33%, 25% 33.33%, 25% 33.33%, 25% 33.33%, 25% 33.33%, 25% 33.33%, 25% 33.33%, 25% 33.33%;
-            background-position: 
-                0% 0%, 25% 0%, 50% 0%, 75% 0%,
-                0% 33.33%, 25% 33.33%, 50% 33.33%, 75% 33.33%,
-                0% 66.66%, 25% 66.66%, 50% 66.66%, 75% 66.66%;
-            background-repeat: no-repeat;
-            opacity: 0.4;
-        }
-
         .hero-carousel {
             position: absolute;
             top: 0;
@@ -73,17 +44,18 @@
 
         .hero-carousel img {
             position: absolute;
-            width: 80vw;
-            height: 100vw;
-            max-width: 800px;
-            max-height: 1000px;
-            min-width: 500px;
-            min-height: 600px;
+            width: 70vw;
+            height: 90vw;
+            max-width: 700px;
+            max-height: 900px;
+            min-width: 400px;
+            min-height: 500px;
             object-fit: cover;
             border-radius: 20px;
             box-shadow: 0 20px 60px rgba(0,0,0,0.5);
             border: 3px solid rgba(255,255,255,0.2);
-            opacity: 1;
+            opacity: 0.9;
+            transition: all 0.3s ease;
             filter: brightness(0.8) contrast(1.1);
         }
 
@@ -483,7 +455,6 @@
 </head>
 <body>
     <div class="hero">
-        <div class="hero-wallpaper"></div>
         <div class="hero-collage" id="heroCollage">
         </div>
         <div class="hero-carousel" id="heroCarousel">

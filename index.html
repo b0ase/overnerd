@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OVERNERD ($NERD) - Overnerd is coming!</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            overflow-x: hidden;
+        }
+
+        .hero {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            position: relative;
+            background: linear-gradient(45deg, #1a1a2e, #16213e, #0f3460);
+            background-size: 400% 400%;
+            animation: gradientShift 15s ease infinite;
+            overflow: hidden;
+        }
+
+        .hero-collage {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0.3;
+            z-index: 1;
+        }
+
+        .hero-collage img {
+            position: absolute;
+            border-radius: 10px;
+            opacity: 0.8;
+            transition: all 0.3s ease;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .hero-collage img:nth-child(1) {
+            width: 120px;
+            height: 160px;
+            top: 10%;
+            left: 5%;
+            animation-delay: 0s;
+            transform: rotate(-5deg);
+        }
+
+        .hero-collage img:nth-child(2) {
+            width: 100px;
+            height: 140px;
+            top: 15%;
+            right: 8%;
+            animation-delay: 1s;
+            transform: rotate(8deg);
+        }
+
+        .hero-collage img:nth-child(3) {
+            width: 110px;
+            height: 150px;
+            bottom: 20%;
+            left: 8%;
+            animation-delay: 2s;
+            transform: rotate(-8deg);
+        }
+
+        .hero-collage img:nth-child(4) {
+            width: 130px;
+            height: 170px;
+            bottom: 15%;
+            right: 5%;
+            animation-delay: 3s;
+            transform: rotate(5deg);
+        }
+
+        .hero-collage img:nth-child(5) {
+            width: 90px;
+            height: 120px;
+            top: 50%;
+            left: 2%;
+            animation-delay: 4s;
+            transform: rotate(-12deg);
+        }
+
+        .hero-collage img:nth-child(6) {
+            width: 95px;
+            height: 125px;
+            top: 45%;
+            right: 3%;
+            animation-delay: 5s;
+            transform: rotate(10deg);
+        }
+
+        .hero-collage img:nth-child(7) {
+            width: 105px;
+            height: 135px;
+            top: 25%;
+            left: 50%;
+            transform: translateX(-50%) rotate(-3deg);
+            animation-delay: 2.5s;
+        }
+
+        .hero-collage img:nth-child(8) {
+            width: 85px;
+            height: 115px;
+            bottom: 40%;
+            left: 50%;
+            transform: translateX(-50%) rotate(7deg);
+            animation-delay: 1.5s;
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0px) rotate(var(--rotation));
+            }
+            50% {
+                transform: translateY(-10px) rotate(var(--rotation));
+            }
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 10;
+            background: rgba(0, 0, 0, 0.4);
+            padding: 3rem;
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .hero h1 {
+            font-size: 4rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+            letter-spacing: 0.1em;
+            animation: glow 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes glow {
+            from { text-shadow: 2px 2px 4px rgba(0,0,0,0.5), 0 0 10px #667eea; }
+            to { text-shadow: 2px 2px 4px rgba(0,0,0,0.5), 0 0 20px #764ba2, 0 0 30px #667eea; }
+        }
+
+        .hero .subtitle {
+            font-size: 1.5rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+            animation: pulse 3s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 0.9; }
+            50% { opacity: 1; }
+        }
+
+        .hero .caption {
+            font-size: 2rem;
+            font-weight: 300;
+            color: #ffd700;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.7);
+            animation: slideInUp 1s ease-out;
+        }
+
+        @keyframes slideInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .scroll-indicator {
+            position: absolute;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            animation: bounce 2s infinite;
+            cursor: pointer;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {
+                transform: translateX(-50%) translateY(0);
+            }
+            40% {
+                transform: translateX(-50%) translateY(-10px);
+            }
+            60% {
+                transform: translateX(-50%) translateY(-5px);
+            }
+        }
+
+        .gallery-section {
+            padding: 4rem 2rem;
+            background: rgba(0,0,0,0.1);
+            backdrop-filter: blur(10px);
+        }
+
+        .gallery-title {
+            text-align: center;
+            font-size: 3rem;
+            margin-bottom: 3rem;
+            color: white;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        }
+
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .comic-card {
+            background: rgba(255,255,255,0.1);
+            border-radius: 15px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.2);
+            cursor: pointer;
+        }
+
+        .comic-card:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+            background: rgba(255,255,255,0.2);
+        }
+
+        .comic-card img {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+
+        .comic-card:hover img {
+            transform: scale(1.1);
+        }
+
+        .comic-info {
+            padding: 1.5rem;
+            text-align: center;
+        }
+
+        .comic-title {
+            font-size: 1.2rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+            color: #ffd700;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.9);
+            backdrop-filter: blur(5px);
+        }
+
+        .modal-content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            max-width: 90%;
+            max-height: 90%;
+        }
+
+        .modal-content img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            border-radius: 10px;
+        }
+
+        .close {
+            position: absolute;
+            top: 15px;
+            right: 35px;
+            color: #f1f1f1;
+            font-size: 40px;
+            font-weight: bold;
+            cursor: pointer;
+            z-index: 1001;
+        }
+
+        .close:hover {
+            color: #ffd700;
+        }
+
+        .footer {
+            text-align: center;
+            padding: 2rem;
+            background: rgba(0,0,0,0.3);
+            color: rgba(255,255,255,0.8);
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .hero .caption {
+                font-size: 1.5rem;
+            }
+            
+            .hero-content {
+                padding: 2rem;
+            }
+            
+            .hero-collage img {
+                opacity: 0.2;
+            }
+            
+            .hero-collage img:nth-child(n+5) {
+                display: none;
+            }
+            
+            .gallery-title {
+                font-size: 2rem;
+            }
+            
+            .gallery {
+                grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+                gap: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="hero">
+        <div class="hero-collage" id="heroCollage">
+        </div>
+        <div class="hero-content">
+            <h1>OVERNERD</h1>
+            <div class="subtitle">($NERD)</div>
+            <div class="caption">Overnerd is coming!</div>
+        </div>
+        <div class="scroll-indicator">⬇</div>
+    </div>
+
+    <div class="gallery-section">
+        <h2 class="gallery-title">Comic Gallery</h2>
+        <div class="gallery" id="gallery">
+        </div>
+    </div>
+
+    <div class="modal" id="modal">
+        <span class="close" id="closeModal">&times;</span>
+        <div class="modal-content">
+            <img id="modalImage" src="" alt="Comic Image">
+        </div>
+    </div>
+
+    <div class="footer">
+        <p>&copy; 2024 OVERNERD. All rights reserved.</p>
+    </div>
+
+    <script>
+        // Image data - combining both directories
+        const comicImages = [
+            'overnerd-comic-images/75.jpg',
+            'overnerd-comic-images/76.jpg',
+            'overnerd-comic-images/77.jpg',
+            'overnerd-comic-images/78.jpg',
+            'overnerd-comic-images/79.jpg',
+            'overnerd-comic-images/80.jpg',
+            'overnerd-comic-images/81.jpg',
+            'overnerd-comic-images/74.jpg',
+            'overnerd-comic-images/download.jpg',
+            'overnerd-comic-images/download-1.jpg',
+            'overnerd-comic-images/download-2.jpg',
+            'overnerd-comic-images/download-3.jpg',
+            'overnerd-comic-images/download-4.jpg',
+            'overnerd-comic-images/download-5.jpg',
+            'overnerd-comic-images/download-6.jpg',
+            'overnerd-comic-images/download-7.jpg',
+            'overnerd-comic-images/download-8.jpg',
+            'overnerd-comic-images/download-9.jpg',
+            'overnerd-comic-images/download-10.jpg',
+            'overnerd-comic-images/download-11.jpg',
+            'overnerd-comic-images/download-12.jpg',
+            'overnerd-comic-images/download-18.jpg',
+            'overnerd-comic-images/download-51.jpg',
+            'overnerd-comic-images/download-52.jpg',
+            'overnerd-comic-images/download-53.jpg',
+            'overnerd-comic-images/download-54.jpg',
+            'overnerd-comic-images/download-55.jpg',
+            'overnerd-comic-images/download-57.jpg',
+            'overnerd-comic-images/download-70.jpg',
+            'overnerd-comic-images/download-71.jpg',
+            'overnerd-comic-images/download-72.jpg',
+            'overnerd-comic-images/covers/download.jpg',
+            'overnerd-comic-images/covers/download-1.jpg',
+            'overnerd-comic-images/covers/download-2.jpg',
+            'overnerd-comic-images/covers/download-3.jpg',
+            'overnerd-comic-images/covers/download-4.jpg',
+            'overnerd-comic-images/covers/download-5.jpg',
+            'overnerd-comic-images/covers/download-6.jpg',
+            'overnerd-comic-images/covers/download-7.jpg',
+            'overnerd-comic-images/covers/download-8.jpg',
+            'overnerd-comic-images/covers/download-9.jpg',
+            'overnerd-comic-images/covers/download-10.jpg',
+            'overnerd-comic-images/covers/download-15.jpg',
+            'overnerd-comic-images/covers/download-20.jpg',
+            'overnerd-comic-images/covers/download-25.jpg',
+            'overnerd-comic-images/covers/download-30.jpg',
+            'overnerd-comic-images/covers/download-35.jpg',
+            'overnerd-comic-images/covers/download-40.jpg',
+            'overnerd-comic-images/covers/download-45.jpg',
+            'overnerd-comic-images/covers/download-50.jpg',
+            'overnerd-comic-images/covers/download-55.jpg',
+            'overnerd-comic-images/covers/download-60.jpg',
+            'overnerd-comic-images/covers/download-65.jpg'
+        ];
+
+        function createGallery() {
+            const gallery = document.getElementById('gallery');
+            
+            comicImages.forEach((imagePath, index) => {
+                const card = document.createElement('div');
+                card.className = 'comic-card';
+                
+                const img = document.createElement('img');
+                img.src = imagePath;
+                img.alt = `OVERNERD Comic ${index + 1}`;
+                img.loading = 'lazy';
+                
+                const info = document.createElement('div');
+                info.className = 'comic-info';
+                
+                const title = document.createElement('div');
+                title.className = 'comic-title';
+                title.textContent = `Issue #${index + 1}`;
+                
+                info.appendChild(title);
+                card.appendChild(img);
+                card.appendChild(info);
+                
+                card.addEventListener('click', () => openModal(imagePath));
+                
+                gallery.appendChild(card);
+            });
+        }
+
+        const modal = document.getElementById('modal');
+        const modalImage = document.getElementById('modalImage');
+        const closeModal = document.getElementById('closeModal');
+
+        function openModal(imageSrc) {
+            modal.style.display = 'block';
+            modalImage.src = imageSrc;
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModalFunc() {
+            modal.style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+
+        closeModal.addEventListener('click', closeModalFunc);
+        
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) {
+                closeModalFunc();
+            }
+        });
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                closeModalFunc();
+            }
+        });
+
+        document.querySelector('.scroll-indicator').addEventListener('click', () => {
+            document.querySelector('.gallery-section').scrollIntoView({
+                behavior: 'smooth'
+            });
+        });
+
+        // Create hero collage
+        function createHeroCollage() {
+            const heroCollage = document.getElementById('heroCollage');
+            
+            // Select a variety of images for the collage
+            const collageImages = [
+                'overnerd-comic-images/75.jpg',
+                'overnerd-comic-images/covers/download-35.jpg',
+                'overnerd-comic-images/81.jpg',
+                'overnerd-comic-images/covers/download-50.jpg',
+                'overnerd-comic-images/77.jpg',
+                'overnerd-comic-images/covers/download-25.jpg',
+                'overnerd-comic-images/download-4.jpg',
+                'overnerd-comic-images/covers/download-60.jpg'
+            ];
+            
+            collageImages.forEach((imagePath, index) => {
+                const img = document.createElement('img');
+                img.src = imagePath;
+                img.alt = `OVERNERD Collage ${index + 1}`;
+                img.loading = 'eager'; // Load immediately for hero
+                heroCollage.appendChild(img);
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            createHeroCollage();
+            createGallery();
+        });
+
+        document.addEventListener('mousemove', (e) => {
+            const hero = document.querySelector('.hero');
+            const x = e.clientX / window.innerWidth;
+            const y = e.clientY / window.innerHeight;
+            
+            hero.style.background = `linear-gradient(${45 + x * 10}deg, 
+                hsl(${220 + y * 20}, 70%, ${15 + x * 5}%), 
+                hsl(${240 + x * 20}, 60%, ${20 + y * 5}%), 
+                hsl(${200 + y * 15}, 80%, ${25 + x * 3}%))`;
+        });
+    </script>
+</body>
+</html> 

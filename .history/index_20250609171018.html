@@ -447,43 +447,16 @@
             coverImages.push(`overnerd-comic-images/covers/cover-${paddedNumber}.jpg`);
         }
 
-        // Create comic pages section for pilot episode
-        function createComicPages() {
-            const comicPagesContainer = document.getElementById('comicPages');
-            
-            pilotImages.forEach((imagePath, index) => {
-                const panel = document.createElement('div');
-                panel.className = 'comic-panel';
-                
-                const img = document.createElement('img');
-                img.src = imagePath;
-                img.alt = `Episode 01 - Panel ${index + 1}`;
-                img.loading = 'lazy';
-                
-                const panelNumber = document.createElement('div');
-                panelNumber.className = 'panel-number';
-                panelNumber.textContent = `${index + 1}`;
-                
-                panel.appendChild(img);
-                panel.appendChild(panelNumber);
-                
-                panel.addEventListener('click', () => openModal(imagePath));
-                
-                comicPagesContainer.appendChild(panel);
-            });
-        }
-
-        // Create gallery for covers only
         function createGallery() {
             const gallery = document.getElementById('gallery');
             
-            coverImages.forEach((imagePath, index) => {
+            allComicImages.forEach((imagePath, index) => {
                 const card = document.createElement('div');
                 card.className = 'comic-card';
                 
                 const img = document.createElement('img');
                 img.src = imagePath;
-                img.alt = `OVERNERD Cover ${index + 1}`;
+                img.alt = `OVERNERD Comic ${index + 1}`;
                 img.loading = 'lazy';
                 
                 const info = document.createElement('div');
@@ -491,7 +464,7 @@
                 
                 const title = document.createElement('div');
                 title.className = 'comic-title';
-                title.textContent = `Cover #${index + 1}`;
+                title.textContent = `Issue #${index + 1}`;
                 
                 info.appendChild(title);
                 card.appendChild(img);
@@ -568,7 +541,6 @@
 
         document.addEventListener('DOMContentLoaded', () => {
             createHeroCarousel();
-            createComicPages();
             createGallery();
         });
 

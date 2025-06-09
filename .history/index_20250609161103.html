@@ -134,17 +134,11 @@
 
         @keyframes float {
             0%, 100% {
-                transform: translateY(0px) scale(1);
+                transform: translateY(0px) rotate(var(--rotation));
             }
             50% {
-                transform: translateY(-15px) scale(1.02);
+                transform: translateY(-10px) rotate(var(--rotation));
             }
-        }
-
-        .hero-collage img:hover {
-            opacity: 0.9;
-            transform: scale(1.05) !important;
-            z-index: 10 !important;
         }
 
         .hero-content {

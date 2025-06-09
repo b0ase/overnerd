@@ -134,17 +134,11 @@
 
         @keyframes float {
             0%, 100% {
-                transform: translateY(0px) scale(1);
+                transform: translateY(0px) rotate(var(--rotation));
             }
             50% {
-                transform: translateY(-15px) scale(1.02);
+                transform: translateY(-10px) rotate(var(--rotation));
             }
-        }
-
-        .hero-collage img:hover {
-            opacity: 0.9;
-            transform: scale(1.05) !important;
-            z-index: 10 !important;
         }
 
         .hero-content {
@@ -354,40 +348,11 @@
             }
             
             .hero-collage img {
-                opacity: 0.15;
-                transform: scale(0.6) !important;
+                opacity: 0.2;
             }
             
             .hero-collage img:nth-child(n+5) {
                 display: none;
-            }
-            
-            .hero-collage img:nth-child(1) {
-                width: 200px !important;
-                height: 280px !important;
-                top: 5% !important;
-                left: -10% !important;
-            }
-            
-            .hero-collage img:nth-child(2) {
-                width: 180px !important;
-                height: 250px !important;
-                top: 10% !important;
-                right: -15% !important;
-            }
-            
-            .hero-collage img:nth-child(3) {
-                width: 220px !important;
-                height: 300px !important;
-                bottom: -5% !important;
-                left: -5% !important;
-            }
-            
-            .hero-collage img:nth-child(4) {
-                width: 190px !important;
-                height: 260px !important;
-                bottom: 0% !important;
-                right: -10% !important;
             }
             
             .gallery-title {

@@ -571,16 +571,13 @@
         function createHeroCarousel() {
             const heroCarousel = document.getElementById('heroCarousel');
             
-            // Use more cover images to ensure full coverage
+            // Use evenly spaced chronological covers for the carousel
             const carouselImages = [
-                'overnerd-comic-images/covers/cover-03.jpg',
-                'overnerd-comic-images/covers/cover-12.jpg',
-                'overnerd-comic-images/covers/cover-21.jpg',
-                'overnerd-comic-images/covers/cover-28.jpg',
+                'overnerd-comic-images/covers/cover-05.jpg',
+                'overnerd-comic-images/covers/cover-20.jpg',
                 'overnerd-comic-images/covers/cover-35.jpg',
-                'overnerd-comic-images/covers/cover-42.jpg',
-                'overnerd-comic-images/covers/cover-51.jpg',
-                'overnerd-comic-images/covers/cover-68.jpg'
+                'overnerd-comic-images/covers/cover-50.jpg',
+                'overnerd-comic-images/covers/cover-65.jpg'
             ];
             
             carouselImages.forEach((imagePath, index) => {
@@ -589,11 +586,10 @@
                 img.alt = `OVERNERD Cover ${index + 1}`;
                 img.loading = 'eager';
                 
-                // Apply different drift animations to each image with much slower speeds
-                const animationName = `drift${(index % 8) + 1}`;
-                const duration = 60 + (index * 15); // Much slower: 60-165 seconds
-                const delay = index * 8; // Stagger start times
-                img.style.animation = `${animationName} ${duration}s infinite linear ${delay}s`;
+                // Apply different drift animations to each image
+                const animationName = `drift${(index % 5) + 1}`;
+                const duration = 15 + (index * 3); // Different speeds
+                img.style.animation = `${animationName} ${duration}s infinite linear`;
                 
                 heroCarousel.appendChild(img);
             });

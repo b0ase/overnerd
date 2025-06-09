@@ -603,20 +603,16 @@
         function createHeroCarousel() {
             const heroCarousel = document.getElementById('heroCarousel');
             
-            // Use many more cover images to ensure complete coverage
+            // Use more cover images to ensure full coverage
             const carouselImages = [
-                'overnerd-comic-images/covers/cover-02.jpg',
-                'overnerd-comic-images/covers/cover-07.jpg',
-                'overnerd-comic-images/covers/cover-14.jpg',
-                'overnerd-comic-images/covers/cover-19.jpg',
-                'overnerd-comic-images/covers/cover-26.jpg',
-                'overnerd-comic-images/covers/cover-33.jpg',
-                'overnerd-comic-images/covers/cover-38.jpg',
-                'overnerd-comic-images/covers/cover-45.jpg',
-                'overnerd-comic-images/covers/cover-52.jpg',
-                'overnerd-comic-images/covers/cover-59.jpg',
-                'overnerd-comic-images/covers/cover-64.jpg',
-                'overnerd-comic-images/covers/cover-71.jpg'
+                'overnerd-comic-images/covers/cover-03.jpg',
+                'overnerd-comic-images/covers/cover-12.jpg',
+                'overnerd-comic-images/covers/cover-21.jpg',
+                'overnerd-comic-images/covers/cover-28.jpg',
+                'overnerd-comic-images/covers/cover-35.jpg',
+                'overnerd-comic-images/covers/cover-42.jpg',
+                'overnerd-comic-images/covers/cover-51.jpg',
+                'overnerd-comic-images/covers/cover-68.jpg'
             ];
             
             carouselImages.forEach((imagePath, index) => {
@@ -625,10 +621,10 @@
                 img.alt = `OVERNERD Cover ${index + 1}`;
                 img.loading = 'eager';
                 
-                // Apply different drift animations with much slower speeds and varied timing
-                const animationName = `drift${(index % 12) + 1}`;
-                const duration = 45 + (index * 8); // 45-133 seconds
-                const delay = index * 4; // Stagger start times every 4 seconds
+                // Apply different drift animations to each image with much slower speeds
+                const animationName = `drift${(index % 8) + 1}`;
+                const duration = 60 + (index * 15); // Much slower: 60-165 seconds
+                const delay = index * 8; // Stagger start times
                 img.style.animation = `${animationName} ${duration}s infinite linear ${delay}s`;
                 
                 heroCarousel.appendChild(img);

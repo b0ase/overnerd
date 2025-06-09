@@ -432,14 +432,38 @@
 
     <script>
         // Image data - combining both directories
-        // Generate chronologically ordered comic images (74-102)
-        const comicImages = [];
-        for (let i = 74; i <= 102; i++) {
-            comicImages.push(`overnerd-comic-images/${i}.jpg`);
-        }
-        
-        // Add cover images
-        const coverImages = [
+        const comicImages = [
+            'overnerd-comic-images/75.jpg',
+            'overnerd-comic-images/76.jpg',
+            'overnerd-comic-images/77.jpg',
+            'overnerd-comic-images/78.jpg',
+            'overnerd-comic-images/79.jpg',
+            'overnerd-comic-images/80.jpg',
+            'overnerd-comic-images/81.jpg',
+            'overnerd-comic-images/74.jpg',
+            'overnerd-comic-images/download.jpg',
+            'overnerd-comic-images/download-1.jpg',
+            'overnerd-comic-images/download-2.jpg',
+            'overnerd-comic-images/download-3.jpg',
+            'overnerd-comic-images/download-4.jpg',
+            'overnerd-comic-images/download-5.jpg',
+            'overnerd-comic-images/download-6.jpg',
+            'overnerd-comic-images/download-7.jpg',
+            'overnerd-comic-images/download-8.jpg',
+            'overnerd-comic-images/download-9.jpg',
+            'overnerd-comic-images/download-10.jpg',
+            'overnerd-comic-images/download-11.jpg',
+            'overnerd-comic-images/download-12.jpg',
+            'overnerd-comic-images/download-18.jpg',
+            'overnerd-comic-images/download-51.jpg',
+            'overnerd-comic-images/download-52.jpg',
+            'overnerd-comic-images/download-53.jpg',
+            'overnerd-comic-images/download-54.jpg',
+            'overnerd-comic-images/download-55.jpg',
+            'overnerd-comic-images/download-57.jpg',
+            'overnerd-comic-images/download-70.jpg',
+            'overnerd-comic-images/download-71.jpg',
+            'overnerd-comic-images/download-72.jpg',
             'overnerd-comic-images/covers/download.jpg',
             'overnerd-comic-images/covers/download-1.jpg',
             'overnerd-comic-images/covers/download-2.jpg',
@@ -463,14 +487,11 @@
             'overnerd-comic-images/covers/download-60.jpg',
             'overnerd-comic-images/covers/download-65.jpg'
         ];
-        
-        // Combine both arrays
-        const allComicImages = [...comicImages, ...coverImages];
 
         function createGallery() {
             const gallery = document.getElementById('gallery');
             
-            allComicImages.forEach((imagePath, index) => {
+            comicImages.forEach((imagePath, index) => {
                 const card = document.createElement('div');
                 card.className = 'comic-card';
                 
@@ -535,7 +556,7 @@
         function createHeroCollage() {
             const heroCollage = document.getElementById('heroCollage');
             
-            // Select a variety of images for the collage - using chronologically ordered names
+            // Select a variety of images for the collage
             const collageImages = [
                 'overnerd-comic-images/75.jpg',
                 'overnerd-comic-images/covers/download-35.jpg',
@@ -543,7 +564,7 @@
                 'overnerd-comic-images/covers/download-50.jpg',
                 'overnerd-comic-images/77.jpg',
                 'overnerd-comic-images/covers/download-25.jpg',
-                'overnerd-comic-images/91.jpg', // was download-4.jpg
+                'overnerd-comic-images/download-4.jpg',
                 'overnerd-comic-images/covers/download-60.jpg'
             ];
             

@@ -57,46 +57,6 @@
             100% { transform: translateX(-66.67%); }
         }
 
-        @keyframes longDrift1 {
-            0% { transform: translate(-200%, 10%) rotate(-8deg); }
-            20% { transform: translate(150%, -40%) rotate(3deg); }
-            40% { transform: translate(40%, 150%) rotate(-3deg); }
-            60% { transform: translate(-80%, 100%) rotate(5deg); }
-            80% { transform: translate(200%, -30%) rotate(-6deg); }
-            100% { transform: translate(-200%, 10%) rotate(-8deg); }
-        }
-
-        @keyframes longDrift2 {
-            0% { transform: translate(180%, -50%) rotate(12deg); }
-            25% { transform: translate(-120%, -10%) rotate(-5deg); }
-            50% { transform: translate(20%, 180%) rotate(8deg); }
-            75% { transform: translate(160%, 30%) rotate(-4deg); }
-            100% { transform: translate(180%, -50%) rotate(12deg); }
-        }
-
-        @keyframes longDrift3 {
-            0% { transform: translate(-150%, 120%) rotate(-10deg); }
-            30% { transform: translate(-90%, -80%) rotate(7deg); }
-            60% { transform: translate(200%, -20%) rotate(-6deg); }
-            90% { transform: translate(-50%, -90%) rotate(12deg); }
-            100% { transform: translate(-150%, 120%) rotate(-10deg); }
-        }
-
-        @keyframes longDrift4 {
-            0% { transform: translate(220%, 80%) rotate(6deg); }
-            25% { transform: translate(120%, 200%) rotate(-12deg); }
-            50% { transform: translate(-150%, -60%) rotate(9deg); }
-            75% { transform: translate(180%, 0%) rotate(-7deg); }
-            100% { transform: translate(220%, 80%) rotate(6deg); }
-        }
-
-        @keyframes longDrift5 {
-            0% { transform: translate(-180%, -80%) rotate(-4deg); }
-            40% { transform: translate(-20%, -90%) rotate(14deg); }
-            70% { transform: translate(-200%, 150%) rotate(-9deg); }
-            100% { transform: translate(-180%, -80%) rotate(-4deg); }
-        }
-
         .hero-carousel {
             position: absolute;
             top: 0;
@@ -727,39 +687,6 @@
             });
         });
 
-        // Create wallpaper background with scrolling covers
-        function createHeroWallpaper() {
-            const heroWallpaper = document.querySelector('.hero-wallpaper');
-            
-            // Use covers for continuous scrolling wallpaper
-            const wallpaperCovers = [
-                'overnerd-comic-images/covers/cover-01.jpg',
-                'overnerd-comic-images/covers/cover-08.jpg',
-                'overnerd-comic-images/covers/cover-15.jpg',
-                'overnerd-comic-images/covers/cover-22.jpg',
-                'overnerd-comic-images/covers/cover-29.jpg',
-                'overnerd-comic-images/covers/cover-36.jpg',
-                'overnerd-comic-images/covers/cover-43.jpg',
-                'overnerd-comic-images/covers/cover-50.jpg',
-                'overnerd-comic-images/covers/cover-57.jpg',
-                'overnerd-comic-images/covers/cover-64.jpg',
-                'overnerd-comic-images/covers/cover-71.jpg',
-                'overnerd-comic-images/covers/cover-05.jpg'
-            ];
-            
-            // Triple the covers for seamless scrolling
-            const allCovers = [...wallpaperCovers, ...wallpaperCovers, ...wallpaperCovers];
-            
-            allCovers.forEach((imagePath, index) => {
-                const img = document.createElement('img');
-                img.src = imagePath;
-                img.alt = `Wallpaper Cover ${index + 1}`;
-                img.loading = 'eager';
-                
-                heroWallpaper.appendChild(img);
-            });
-        }
-
         // Create scrolling covers section with all covers
         function createScrollingCovers() {
             const scrollingContainer = document.getElementById('scrollingCovers');
@@ -778,17 +705,24 @@
             }
         }
 
-        // Create hero carousel with cover images - 5 minute cycles
+        // Create hero carousel with cover images
         function createHeroCarousel() {
             const heroCarousel = document.getElementById('heroCarousel');
             
-            // Use fewer floating images with 5-minute cycles
+            // Use many more cover images to ensure complete coverage
             const carouselImages = [
-                'overnerd-comic-images/covers/cover-12.jpg',
-                'overnerd-comic-images/covers/cover-28.jpg',
-                'overnerd-comic-images/covers/cover-44.jpg',
-                'overnerd-comic-images/covers/cover-60.jpg',
-                'overnerd-comic-images/covers/cover-16.jpg'
+                'overnerd-comic-images/covers/cover-02.jpg',
+                'overnerd-comic-images/covers/cover-07.jpg',
+                'overnerd-comic-images/covers/cover-14.jpg',
+                'overnerd-comic-images/covers/cover-19.jpg',
+                'overnerd-comic-images/covers/cover-26.jpg',
+                'overnerd-comic-images/covers/cover-33.jpg',
+                'overnerd-comic-images/covers/cover-38.jpg',
+                'overnerd-comic-images/covers/cover-45.jpg',
+                'overnerd-comic-images/covers/cover-52.jpg',
+                'overnerd-comic-images/covers/cover-59.jpg',
+                'overnerd-comic-images/covers/cover-64.jpg',
+                'overnerd-comic-images/covers/cover-71.jpg'
             ];
             
             carouselImages.forEach((imagePath, index) => {
@@ -797,16 +731,17 @@
                 img.alt = `OVERNERD Cover ${index + 1}`;
                 img.loading = 'eager';
                 
-                // Apply long drift animations with 5-minute cycles (300 seconds)
-                const animationName = `longDrift${(index % 5) + 1}`;
-                img.style.animation = `${animationName} 300s infinite linear`;
+                // Apply different drift animations with NO DELAYS - instant full coverage
+                const animationName = `drift${(index % 12) + 1}`;
+                const duration = 45 + (index * 8); // 45-133 seconds
+                // NO DELAYS! All animations start immediately for instant coverage
+                img.style.animation = `${animationName} ${duration}s infinite linear`;
                 
                 heroCarousel.appendChild(img);
             });
         }
 
         document.addEventListener('DOMContentLoaded', () => {
-            createHeroWallpaper();
             createHeroCarousel();
             createScrollingCovers();
             createComicPages();

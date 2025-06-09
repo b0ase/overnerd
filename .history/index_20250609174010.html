@@ -778,17 +778,24 @@
             }
         }
 
-        // Create hero carousel with cover images - 5 minute cycles
+        // Create hero carousel with cover images
         function createHeroCarousel() {
             const heroCarousel = document.getElementById('heroCarousel');
             
-            // Use fewer floating images with 5-minute cycles
+            // Use many more cover images to ensure complete coverage
             const carouselImages = [
-                'overnerd-comic-images/covers/cover-12.jpg',
-                'overnerd-comic-images/covers/cover-28.jpg',
-                'overnerd-comic-images/covers/cover-44.jpg',
-                'overnerd-comic-images/covers/cover-60.jpg',
-                'overnerd-comic-images/covers/cover-16.jpg'
+                'overnerd-comic-images/covers/cover-02.jpg',
+                'overnerd-comic-images/covers/cover-07.jpg',
+                'overnerd-comic-images/covers/cover-14.jpg',
+                'overnerd-comic-images/covers/cover-19.jpg',
+                'overnerd-comic-images/covers/cover-26.jpg',
+                'overnerd-comic-images/covers/cover-33.jpg',
+                'overnerd-comic-images/covers/cover-38.jpg',
+                'overnerd-comic-images/covers/cover-45.jpg',
+                'overnerd-comic-images/covers/cover-52.jpg',
+                'overnerd-comic-images/covers/cover-59.jpg',
+                'overnerd-comic-images/covers/cover-64.jpg',
+                'overnerd-comic-images/covers/cover-71.jpg'
             ];
             
             carouselImages.forEach((imagePath, index) => {
@@ -797,16 +804,17 @@
                 img.alt = `OVERNERD Cover ${index + 1}`;
                 img.loading = 'eager';
                 
-                // Apply long drift animations with 5-minute cycles (300 seconds)
-                const animationName = `longDrift${(index % 5) + 1}`;
-                img.style.animation = `${animationName} 300s infinite linear`;
+                // Apply different drift animations with NO DELAYS - instant full coverage
+                const animationName = `drift${(index % 12) + 1}`;
+                const duration = 45 + (index * 8); // 45-133 seconds
+                // NO DELAYS! All animations start immediately for instant coverage
+                img.style.animation = `${animationName} ${duration}s infinite linear`;
                 
                 heroCarousel.appendChild(img);
             });
         }
 
         document.addEventListener('DOMContentLoaded', () => {
-            createHeroWallpaper();
             createHeroCarousel();
             createScrollingCovers();
             createComicPages();

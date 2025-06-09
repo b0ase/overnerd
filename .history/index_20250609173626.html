@@ -277,45 +277,6 @@
             background: linear-gradient(90deg, transparent, #ffd700, transparent);
         }
 
-        .scrolling-covers-section {
-            background: rgba(0,0,0,0.9);
-            padding: 2rem 0;
-            overflow: hidden;
-            border-top: 2px solid #ffd700;
-            border-bottom: 2px solid #ffd700;
-        }
-
-        .scrolling-covers {
-            display: flex;
-            animation: scrollLeft 60s linear infinite;
-            gap: 1rem;
-        }
-
-        .scrolling-covers img {
-            width: 12.5vw;
-            height: 16vw;
-            max-width: 120px;
-            max-height: 160px;
-            min-width: 80px;
-            min-height: 100px;
-            object-fit: cover;
-            border-radius: 8px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.5);
-            border: 1px solid rgba(255,255,255,0.2);
-            flex-shrink: 0;
-            opacity: 0.8;
-            transition: opacity 0.3s ease;
-        }
-
-        .scrolling-covers img:hover {
-            opacity: 1;
-        }
-
-        @keyframes scrollLeft {
-            0% { transform: translateX(100%); }
-            100% { transform: translateX(-100%); }
-        }
-
         .comic-pages {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
@@ -498,15 +459,6 @@
             .section-title {
                 font-size: 2rem;
             }
-
-            .scrolling-covers img {
-                width: 20vw;
-                height: 26vw;
-                max-width: 80px;
-                max-height: 105px;
-                min-width: 60px;
-                min-height: 80px;
-            }
             
             .comic-pages {
                 grid-template-columns: 1fr;
@@ -547,11 +499,6 @@
             </div>
         </div>
         <div class="scroll-indicator">⬇</div>
-    </div>
-
-    <div class="scrolling-covers-section">
-        <div class="scrolling-covers" id="scrollingCovers">
-        </div>
     </div>
 
     <div class="comic-pages-section">
@@ -683,24 +630,6 @@
             });
         });
 
-        // Create scrolling covers section with all covers
-        function createScrollingCovers() {
-            const scrollingContainer = document.getElementById('scrollingCovers');
-            
-            // Use all 72 covers for scrolling
-            for (let i = 1; i <= 72; i++) {
-                const paddedNumber = i.toString().padStart(2, '0');
-                const imagePath = `overnerd-comic-images/covers/cover-${paddedNumber}.jpg`;
-                
-                const img = document.createElement('img');
-                img.src = imagePath;
-                img.alt = `Cover ${i}`;
-                img.loading = 'lazy';
-                
-                scrollingContainer.appendChild(img);
-            }
-        }
-
         // Create hero carousel with cover images
         function createHeroCarousel() {
             const heroCarousel = document.getElementById('heroCarousel');
@@ -739,7 +668,6 @@
 
         document.addEventListener('DOMContentLoaded', () => {
             createHeroCarousel();
-            createScrollingCovers();
             createComicPages();
             createGallery();
         });

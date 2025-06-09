@@ -498,15 +498,6 @@
             .section-title {
                 font-size: 2rem;
             }
-
-            .scrolling-covers img {
-                width: 20vw;
-                height: 26vw;
-                max-width: 80px;
-                max-height: 105px;
-                min-width: 60px;
-                min-height: 80px;
-            }
             
             .comic-pages {
                 grid-template-columns: 1fr;
@@ -683,24 +674,6 @@
             });
         });
 
-        // Create scrolling covers section with all covers
-        function createScrollingCovers() {
-            const scrollingContainer = document.getElementById('scrollingCovers');
-            
-            // Use all 72 covers for scrolling
-            for (let i = 1; i <= 72; i++) {
-                const paddedNumber = i.toString().padStart(2, '0');
-                const imagePath = `overnerd-comic-images/covers/cover-${paddedNumber}.jpg`;
-                
-                const img = document.createElement('img');
-                img.src = imagePath;
-                img.alt = `Cover ${i}`;
-                img.loading = 'lazy';
-                
-                scrollingContainer.appendChild(img);
-            }
-        }
-
         // Create hero carousel with cover images
         function createHeroCarousel() {
             const heroCarousel = document.getElementById('heroCarousel');
@@ -739,7 +712,6 @@
 
         document.addEventListener('DOMContentLoaded', () => {
             createHeroCarousel();
-            createScrollingCovers();
             createComicPages();
             createGallery();
         });

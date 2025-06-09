@@ -32,110 +32,129 @@
             overflow: hidden;
         }
 
-        .hero-carousel {
+        .hero-collage {
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            overflow: hidden;
+            opacity: 0.3;
             z-index: 1;
         }
 
-        .hero-carousel img {
+        .hero-collage img {
             position: absolute;
-            width: 35vw;
-            height: 50vw;
-            max-width: 500px;
-            max-height: 700px;
-            min-width: 250px;
-            min-height: 350px;
-            object-fit: cover;
-            border-radius: 20px;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.5);
-            border: 3px solid rgba(255,255,255,0.2);
-            opacity: 0.9;
+            border-radius: 15px;
+            opacity: 0.7;
             transition: all 0.3s ease;
-            filter: brightness(0.8) contrast(1.1);
+            animation: float 6s ease-in-out infinite;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+            border: 2px solid rgba(255,255,255,0.1);
         }
 
-        .hero-carousel img:hover {
-            opacity: 1;
+        .hero-collage img:nth-child(1) {
+            width: 280px;
+            height: 380px;
+            top: -5%;
+            left: -2%;
+            animation-delay: 0s;
+            transform: rotate(-15deg);
+            z-index: 3;
+        }
+
+        .hero-collage img:nth-child(2) {
+            width: 260px;
+            height: 350px;
+            top: 5%;
+            right: -5%;
+            animation-delay: 1s;
+            transform: rotate(12deg);
+            z-index: 2;
+        }
+
+        .hero-collage img:nth-child(3) {
+            width: 300px;
+            height: 400px;
+            bottom: -10%;
+            left: 5%;
+            animation-delay: 2s;
+            transform: rotate(-20deg);
+            z-index: 4;
+        }
+
+        .hero-collage img:nth-child(4) {
+            width: 270px;
+            height: 360px;
+            bottom: -5%;
+            right: 0%;
+            animation-delay: 3s;
+            transform: rotate(18deg);
+            z-index: 2;
+        }
+
+        .hero-collage img:nth-child(5) {
+            width: 250px;
+            height: 330px;
+            top: 30%;
+            left: -8%;
+            animation-delay: 4s;
+            transform: rotate(-25deg);
+            z-index: 1;
+        }
+
+        .hero-collage img:nth-child(6) {
+            width: 240px;
+            height: 320px;
+            top: 25%;
+            right: -3%;
+            animation-delay: 5s;
+            transform: rotate(22deg);
+            z-index: 1;
+        }
+
+        .hero-collage img:nth-child(7) {
+            width: 290px;
+            height: 390px;
+            top: 10%;
+            left: 35%;
+            transform: rotate(-8deg);
+            animation-delay: 2.5s;
+            z-index: 3;
+        }
+
+        .hero-collage img:nth-child(8) {
+            width: 220px;
+            height: 300px;
+            bottom: 20%;
+            left: 40%;
+            transform: rotate(15deg);
+            animation-delay: 1.5s;
+            z-index: 2;
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0px) scale(1);
+            }
+            50% {
+                transform: translateY(-15px) scale(1.02);
+            }
+        }
+
+        .hero-collage img:hover {
+            opacity: 0.9;
             transform: scale(1.05) !important;
             z-index: 10 !important;
-            filter: brightness(1) contrast(1.2);
         }
 
-        .hero-overlay {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            z-index: 20;
-            pointer-events: none;
-        }
-
-        .nerd-token-link {
-            pointer-events: all;
-            text-align: center;
-        }
-
-        .nerd-token-link a {
-            display: inline-block;
-            font-size: 3rem;
-            font-weight: bold;
-            color: #ffd700;
-            text-decoration: none;
-            padding: 1.5rem 3rem;
-            background: rgba(0, 0, 0, 0.7);
-            border: 2px solid #ffd700;
+        .hero-content {
+            position: relative;
+            z-index: 10;
+            background: rgba(0, 0, 0, 0.4);
+            padding: 3rem;
             border-radius: 20px;
-            backdrop-filter: blur(15px);
-            text-shadow: 0 0 20px #ffd700;
-            box-shadow: 0 0 30px rgba(255, 215, 0, 0.3);
-            transition: all 0.3s ease;
-            animation: glow 3s ease-in-out infinite alternate;
-        }
-
-        .nerd-token-link a:hover {
-            transform: scale(1.1);
-            box-shadow: 0 0 50px rgba(255, 215, 0, 0.6);
-            background: rgba(255, 215, 0, 0.1);
-        }
-
-        @keyframes drift1 {
-            0%, 100% { transform: translate(-20%, -30%) rotate(-10deg); }
-            25% { transform: translate(120%, -20%) rotate(5deg); }
-            50% { transform: translate(80%, 110%) rotate(-5deg); }
-            75% { transform: translate(-30%, 80%) rotate(8deg); }
-        }
-
-        @keyframes drift2 {
-            0%, 100% { transform: translate(110%, -10%) rotate(15deg); }
-            25% { transform: translate(-20%, 20%) rotate(-8deg); }
-            50% { transform: translate(30%, 120%) rotate(12deg); }
-            75% { transform: translate(120%, 60%) rotate(-6deg); }
-        }
-
-        @keyframes drift3 {
-            0%, 100% { transform: translate(60%, 110%) rotate(-12deg); }
-            25% { transform: translate(-10%, -20%) rotate(10deg); }
-            50% { transform: translate(100%, 10%) rotate(-8deg); }
-            75% { transform: translate(20%, -30%) rotate(15deg); }
-        }
-
-        @keyframes drift4 {
-            0%, 100% { transform: translate(-30%, 80%) rotate(8deg); }
-            25% { transform: translate(90%, 120%) rotate(-15deg); }
-            50% { transform: translate(-20%, -10%) rotate(12deg); }
-            75% { transform: translate(70%, 30%) rotate(-10deg); }
-        }
-
-        @keyframes drift5 {
-            0%, 100% { transform: translate(100%, 40%) rotate(-5deg); }
-            25% { transform: translate(10%, -30%) rotate(18deg); }
-            50% { transform: translate(-40%, 90%) rotate(-12deg); }
-            75% { transform: translate(110%, -20%) rotate(8deg); }
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
         }
 
         @keyframes gradientShift {
@@ -144,9 +163,69 @@
             100% { background-position: 0% 50%; }
         }
 
+        .hero h1 {
+            font-size: 4rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+            letter-spacing: 0.1em;
+            animation: glow 2s ease-in-out infinite alternate;
+        }
+
         @keyframes glow {
-            from { text-shadow: 0 0 20px #ffd700; }
-            to { text-shadow: 0 0 40px #ffd700, 0 0 60px #ffd700; }
+            from { text-shadow: 2px 2px 4px rgba(0,0,0,0.5), 0 0 10px #667eea; }
+            to { text-shadow: 2px 2px 4px rgba(0,0,0,0.5), 0 0 20px #764ba2, 0 0 30px #667eea; }
+        }
+
+        .hero .subtitle {
+            font-size: 1.5rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+            animation: pulse 3s ease-in-out infinite;
+        }
+
+        .hero .subtitle a {
+            color: inherit;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            padding: 0.5rem 1rem;
+            border-radius: 10px;
+            border: 1px solid rgba(255,255,255,0.2);
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(10px);
+            display: inline-block;
+        }
+
+        .hero .subtitle a:hover {
+            color: #ffd700;
+            background: rgba(255,215,0,0.1);
+            border-color: rgba(255,215,0,0.3);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255,215,0,0.2);
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 0.9; }
+            50% { opacity: 1; }
+        }
+
+        .hero .caption {
+            font-size: 2rem;
+            font-weight: 300;
+            color: #ffd700;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.7);
+            animation: slideInUp 1s ease-out;
+        }
+
+        @keyframes slideInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         .scroll-indicator {
@@ -282,20 +361,53 @@
         }
 
         @media (max-width: 768px) {
-            .hero-carousel img {
-                width: 60vw;
-                height: 80vw;
-                min-width: 200px;
-                min-height: 280px;
+            .hero h1 {
+                font-size: 2.5rem;
             }
             
-            .nerd-token-link a {
-                font-size: 2rem;
-                padding: 1rem 2rem;
+            .hero .caption {
+                font-size: 1.5rem;
             }
             
-            .hero-carousel img:nth-child(n+4) {
+            .hero-content {
+                padding: 2rem;
+            }
+            
+            .hero-collage img {
+                opacity: 0.15;
+                transform: scale(0.6) !important;
+            }
+            
+            .hero-collage img:nth-child(n+5) {
                 display: none;
+            }
+            
+            .hero-collage img:nth-child(1) {
+                width: 200px !important;
+                height: 280px !important;
+                top: 5% !important;
+                left: -10% !important;
+            }
+            
+            .hero-collage img:nth-child(2) {
+                width: 180px !important;
+                height: 250px !important;
+                top: 10% !important;
+                right: -15% !important;
+            }
+            
+            .hero-collage img:nth-child(3) {
+                width: 220px !important;
+                height: 300px !important;
+                bottom: -5% !important;
+                left: -5% !important;
+            }
+            
+            .hero-collage img:nth-child(4) {
+                width: 190px !important;
+                height: 260px !important;
+                bottom: 0% !important;
+                right: -10% !important;
             }
             
             .gallery-title {
@@ -441,36 +553,33 @@
             });
         });
 
-        // Create hero carousel with cover images
-        function createHeroCarousel() {
-            const heroCarousel = document.getElementById('heroCarousel');
+        // Create hero collage
+        function createHeroCollage() {
+            const heroCollage = document.getElementById('heroCollage');
             
-            // Use all cover images for the carousel
-            const carouselImages = [
-                'overnerd-comic-images/covers/download.jpg',
-                'overnerd-comic-images/covers/download-15.jpg',
-                'overnerd-comic-images/covers/download-30.jpg',
-                'overnerd-comic-images/covers/download-45.jpg',
+            // Select a variety of images for the collage - using chronologically ordered names
+            const collageImages = [
+                'overnerd-comic-images/75.jpg',
+                'overnerd-comic-images/covers/download-35.jpg',
+                'overnerd-comic-images/81.jpg',
+                'overnerd-comic-images/covers/download-50.jpg',
+                'overnerd-comic-images/77.jpg',
+                'overnerd-comic-images/covers/download-25.jpg',
+                'overnerd-comic-images/91.jpg', // was download-4.jpg
                 'overnerd-comic-images/covers/download-60.jpg'
             ];
             
-            carouselImages.forEach((imagePath, index) => {
+            collageImages.forEach((imagePath, index) => {
                 const img = document.createElement('img');
                 img.src = imagePath;
-                img.alt = `OVERNERD Cover ${index + 1}`;
-                img.loading = 'eager';
-                
-                // Apply different drift animations to each image
-                const animationName = `drift${(index % 5) + 1}`;
-                const duration = 15 + (index * 3); // Different speeds
-                img.style.animation = `${animationName} ${duration}s infinite linear`;
-                
-                heroCarousel.appendChild(img);
+                img.alt = `OVERNERD Collage ${index + 1}`;
+                img.loading = 'eager'; // Load immediately for hero
+                heroCollage.appendChild(img);
             });
         }
 
         document.addEventListener('DOMContentLoaded', () => {
-            createHeroCarousel();
+            createHeroCollage();
             createGallery();
         });
 

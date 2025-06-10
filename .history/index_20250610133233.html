@@ -327,16 +327,6 @@
             to { text-shadow: 0 0 40px #ffd700, 0 0 60px #ffd700; }
         }
 
-        .buy-text {
-            font-size: 0.8rem;
-            color: rgba(255, 255, 255, 0.8);
-            text-align: center;
-            margin-top: 0.5rem;
-            font-weight: normal;
-            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.7);
-            letter-spacing: 0.5px;
-        }
-
         .scroll-indicator {
             position: absolute;
             bottom: 30px;
@@ -494,7 +484,33 @@
             opacity: 0.8;
         }
 
+        .delete-button {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background: rgba(255, 0, 0, 0.8);
+            color: #fff;
+            border: none;
+            padding: 6px 8px;
+            border-radius: 50%;
+            font-weight: bold;
+            font-size: 0.8rem;
+            cursor: pointer;
+            z-index: 10;
+            opacity: 0.9;
+            transition: all 0.3s ease;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
 
+        .delete-button:hover {
+            background: rgba(255, 0, 0, 1);
+            transform: scale(1.1);
+            box-shadow: 0 4px 8px rgba(255, 0, 0, 0.4);
+        }
 
 
 
@@ -617,7 +633,6 @@
             </div>
             <div class="nerd-token-link">
                 <a href="https://1sat.market/market/bsv21/81cad75d8c47f29c4812ebfd789df0bffa7d7b9254203ba019d71e2651a65a14_1" target="_blank">$NERD</a>
-                <div class="buy-text">Buy on 1Sat.Market</div>
             </div>
         </div>
         <div class="scroll-indicator">⬇</div>
@@ -647,42 +662,13 @@
         <p>&copy; 2024 OVERNERD. All rights reserved.</p>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script>
-        // Supabase configuration
-        const supabaseUrl = 'https://krpilllqlaewgtpfqlnm.supabase.co';
-        const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImtycGlsbGxxbGFld2d0cGZxbG5tIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDk1NTk1MzYsImV4cCI6MjA2NTEzNTUzNn0.kdzSdyJrSPS-C2NjgiQAxUm0kuBNFI8-N4SILnrQpEM';
-        const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
-
-        // Global variable to store pilot images from database
-        let pilotImages = [];
-
-        // Load comic panels from Supabase database
-        async function loadComicPanels() {
-            try {
-                const { data, error } = await supabase
-                    .from('comic_panels')
-                    .select('*')
-                    .eq('episode_number', 1)
-                    .eq('is_active', true)
-                    .order('panel_order');
-
-                if (error) {
-                    console.error('Error loading panels:', error);
-                    return;
-                }
-
-                pilotImages = data.map(panel => ({
-                    filename: panel.panel_filename,
-                    path: `overnerd-comic-images/episode-01/${panel.panel_filename}`,
-                    id: panel.id,
-                    order: panel.panel_order
-                }));
-
-                // Create comic pages after loading data
-                createComicPages();
-            } catch (error) {
-                console.error('Error loading comic panels:', error);
+        // Image data - combining both directories
+        // Generate chronologically ordered pilot episode images (74-102, excluding 77, 78, 79)
+        const pilotImages = [];
+        for (let i = 74; i <= 102; i++) {
+            if (i !== 77 && i !== 78 && i !== 79) {
+                pilotImages.push(`overnerd-comic-images/episode-01/${i}.jpg`);
             }
         }
         
@@ -696,18 +682,13 @@
         // Create comic pages section for pilot episode
         function createComicPages() {
             const comicPagesContainer = document.getElementById('comicPages');
-            comicPagesContainer.innerHTML = ''; // Clear existing panels
             
-            pilotImages.forEach((panelData, index) => {
+            pilotImages.forEach((imagePath, index) => {
                 const panel = document.createElement('div');
                 panel.className = 'comic-panel';
-                panel.draggable = true;
-                panel.dataset.index = index;
-                panel.dataset.panelId = panelData.id;
-                panel.dataset.imagePath = panelData.path;
                 
                 const img = document.createElement('img');
-                img.src = panelData.path;
+                img.src = imagePath;
                 img.alt = `Episode 01 - Panel ${index + 1}`;
                 img.loading = 'lazy';
                 
@@ -718,85 +699,10 @@
                 panel.appendChild(img);
                 panel.appendChild(panelNumber);
                 
-                // Add drag and drop event listeners
-                addDragDropListeners(panel);
-                
-                // Add click to view functionality
-                img.addEventListener('click', () => openModal(panelData.path));
+                panel.addEventListener('click', () => openModal(imagePath));
                 
                 comicPagesContainer.appendChild(panel);
             });
-        }
-
-        // Add drag and drop functionality to panels
-        function addDragDropListeners(panel) {
-            panel.addEventListener('dragstart', (e) => {
-                panel.classList.add('dragging');
-                e.dataTransfer.setData('text/plain', panel.dataset.index);
-            });
-
-            panel.addEventListener('dragend', () => {
-                panel.classList.remove('dragging');
-            });
-
-            panel.addEventListener('dragover', (e) => {
-                e.preventDefault();
-                panel.classList.add('drag-over');
-            });
-
-            panel.addEventListener('dragleave', () => {
-                panel.classList.remove('drag-over');
-            });
-
-            panel.addEventListener('drop', (e) => {
-                e.preventDefault();
-                panel.classList.remove('drag-over');
-                
-                const draggedIndex = parseInt(e.dataTransfer.getData('text/plain'));
-                const targetIndex = parseInt(panel.dataset.index);
-                
-                if (draggedIndex !== targetIndex) {
-                    reorderPanels(draggedIndex, targetIndex);
-                }
-            });
-        }
-
-        // Reorder panels function
-        async function reorderPanels(fromIndex, toIndex) {
-            try {
-                // Reorder the pilotImages array locally first
-                const movedImage = pilotImages.splice(fromIndex, 1)[0];
-                pilotImages.splice(toIndex, 0, movedImage);
-                
-                // Update the order in the database
-                const updates = pilotImages.map((panelData, index) => ({
-                    id: panelData.id,
-                    panel_order: index + 1,
-                    updated_at: new Date().toISOString()
-                }));
-
-                // Batch update panel orders
-                for (const update of updates) {
-                    const { error } = await supabase
-                        .from('comic_panels')
-                        .update({ panel_order: update.panel_order, updated_at: update.updated_at })
-                        .eq('id', update.id);
-
-                    if (error) {
-                        console.error('Error updating panel order:', error);
-                        // Reload original order if there's an error
-                        await loadComicPanels();
-                        return;
-                    }
-                }
-                
-                // Recreate the panels with new order
-                createComicPages();
-            } catch (error) {
-                console.error('Error reordering panels:', error);
-                // Reload original order if there's an error
-                await loadComicPanels();
-            }
         }
 
 
@@ -1023,7 +929,7 @@
             createHeroWallpaper();
             createHeroCarousel();
             createScrollingCovers();
-            loadComicPanels(); // Load panels from database instead of creating directly
+            createComicPages();
         });
 
         document.addEventListener('mousemove', (e) => {

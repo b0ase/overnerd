@@ -327,16 +327,6 @@
             to { text-shadow: 0 0 40px #ffd700, 0 0 60px #ffd700; }
         }
 
-        .buy-text {
-            font-size: 0.8rem;
-            color: rgba(255, 255, 255, 0.8);
-            text-align: center;
-            margin-top: 0.5rem;
-            font-weight: normal;
-            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.7);
-            letter-spacing: 0.5px;
-        }
-
         .scroll-indicator {
             position: absolute;
             bottom: 30px;
@@ -494,7 +484,33 @@
             opacity: 0.8;
         }
 
+        .delete-button {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background: rgba(255, 0, 0, 0.8);
+            color: #fff;
+            border: none;
+            padding: 6px 8px;
+            border-radius: 50%;
+            font-weight: bold;
+            font-size: 0.8rem;
+            cursor: pointer;
+            z-index: 10;
+            opacity: 0.9;
+            transition: all 0.3s ease;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
 
+        .delete-button:hover {
+            background: rgba(255, 0, 0, 1);
+            transform: scale(1.1);
+            box-shadow: 0 4px 8px rgba(255, 0, 0, 0.4);
+        }
 
 
 
@@ -617,7 +633,6 @@
             </div>
             <div class="nerd-token-link">
                 <a href="https://1sat.market/market/bsv21/81cad75d8c47f29c4812ebfd789df0bffa7d7b9254203ba019d71e2651a65a14_1" target="_blank">$NERD</a>
-                <div class="buy-text">Buy on 1Sat.Market</div>
             </div>
         </div>
         <div class="scroll-indicator">⬇</div>
@@ -715,11 +730,23 @@
                 panelNumber.className = 'panel-number';
                 panelNumber.textContent = `${index + 1}`;
                 
+                const deleteButton = document.createElement('button');
+                deleteButton.className = 'delete-button';
+                deleteButton.innerHTML = '×';
+                deleteButton.title = 'Delete this panel for everyone';
+                
                 panel.appendChild(img);
                 panel.appendChild(panelNumber);
+                panel.appendChild(deleteButton);
                 
                 // Add drag and drop event listeners
                 addDragDropListeners(panel);
+                
+                // Add delete functionality
+                deleteButton.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    deletePanel(panel, panelData.id);
+                });
                 
                 // Add click to view functionality
                 img.addEventListener('click', () => openModal(panelData.path));
@@ -799,7 +826,30 @@
             }
         }
 
+        // Delete panel function
+        async function deletePanel(panel, panelId) {
+            if (confirm('Are you sure you want to delete this panel for everyone? This cannot be undone.')) {
+                try {
+                    // Mark panel as inactive in database
+                    const { error } = await supabase
+                        .from('comic_panels')
+                        .update({ is_active: false, updated_at: new Date().toISOString() })
+                        .eq('id', panelId);
 
+                    if (error) {
+                        console.error('Error deleting panel:', error);
+                        alert('Error deleting panel. Please try again.');
+                        return;
+                    }
+
+                    // Reload panels from database
+                    await loadComicPanels();
+                } catch (error) {
+                    console.error('Error deleting panel:', error);
+                    alert('Error deleting panel. Please try again.');
+                }
+            }
+        }
 
         const modal = document.getElementById('modal');
         const modalImage = document.getElementById('modalImage');
@@ -1023,7 +1073,7 @@
             createHeroWallpaper();
             createHeroCarousel();
             createScrollingCovers();
-            loadComicPanels(); // Load panels from database instead of creating directly
+            createComicPages();
         });
 
         document.addEventListener('mousemove', (e) => {

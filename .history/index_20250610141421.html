@@ -888,9 +888,8 @@
             });
         }
 
-        // Add drag and drop functionality to panels (mobile-optimized)
+        // Add drag and drop functionality to panels
         function addDragDropListeners(panel) {
-            // Desktop drag and drop
             panel.addEventListener('dragstart', (e) => {
                 panel.classList.add('dragging');
                 e.dataTransfer.setData('text/plain', panel.dataset.index);
@@ -919,73 +918,6 @@
                 if (draggedIndex !== targetIndex) {
                     reorderPanels(draggedIndex, targetIndex);
                 }
-            });
-
-            // Mobile touch drag and drop
-            let touchStartIndex = null;
-            let isDraggingTouch = false;
-
-            panel.addEventListener('touchstart', (e) => {
-                touchStartIndex = parseInt(panel.dataset.index);
-                isDraggingTouch = false;
-                
-                // Add a small delay to distinguish between scroll and drag
-                setTimeout(() => {
-                    if (touchStartIndex !== null) {
-                        isDraggingTouch = true;
-                        panel.classList.add('dragging');
-                    }
-                }, 200);
-            }, { passive: true });
-
-            panel.addEventListener('touchmove', (e) => {
-                if (isDraggingTouch) {
-                    e.preventDefault();
-                    
-                    // Get the element being touched
-                    const touch = e.touches[0];
-                    const elementBelow = document.elementFromPoint(touch.clientX, touch.clientY);
-                    const targetPanel = elementBelow?.closest('.comic-panel');
-                    
-                    // Remove drag-over from all panels
-                    document.querySelectorAll('.comic-panel').forEach(p => p.classList.remove('drag-over'));
-                    
-                    // Add drag-over to target panel
-                    if (targetPanel && targetPanel !== panel) {
-                        targetPanel.classList.add('drag-over');
-                    }
-                }
-            }, { passive: false });
-
-            panel.addEventListener('touchend', (e) => {
-                if (isDraggingTouch) {
-                    e.preventDefault();
-                    
-                    const touch = e.changedTouches[0];
-                    const elementBelow = document.elementFromPoint(touch.clientX, touch.clientY);
-                    const targetPanel = elementBelow?.closest('.comic-panel');
-                    
-                    panel.classList.remove('dragging');
-                    document.querySelectorAll('.comic-panel').forEach(p => p.classList.remove('drag-over'));
-                    
-                    if (targetPanel && targetPanel !== panel) {
-                        const targetIndex = parseInt(targetPanel.dataset.index);
-                        if (touchStartIndex !== targetIndex) {
-                            reorderPanels(touchStartIndex, targetIndex);
-                        }
-                    }
-                }
-                
-                touchStartIndex = null;
-                isDraggingTouch = false;
-            }, { passive: false });
-
-            // Cancel touch drag on scroll
-            panel.addEventListener('touchcancel', () => {
-                touchStartIndex = null;
-                isDraggingTouch = false;
-                panel.classList.remove('dragging');
-                document.querySelectorAll('.comic-panel').forEach(p => p.classList.remove('drag-over'));
             });
         }
 

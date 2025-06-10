@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>OVERNERD ($NERD) - Overnerd is coming!</title>
     <style>
         * {
@@ -335,166 +335,6 @@
             font-weight: normal;
             text-shadow: 0 1px 2px rgba(0, 0, 0, 0.7);
             letter-spacing: 0.5px;
-        }
-
-        /* Mobile Optimizations */
-        @media (max-width: 768px) {
-            /* Hero Section Mobile */
-            .hero-main-title h1 {
-                font-size: 3rem;
-                letter-spacing: 0.05em;
-                line-height: 1.1;
-            }
-
-            .nerd-token-link a {
-                font-size: 2rem;
-                padding: 1rem 2rem;
-                border-radius: 15px;
-            }
-
-            .buy-text {
-                font-size: 0.7rem;
-                margin-top: 0.3rem;
-            }
-
-            /* Hero Carousel Mobile - Smaller floating images */
-            .hero-carousel img {
-                width: 60vw;
-                height: 75vw;
-                max-width: 300px;
-                max-height: 400px;
-                min-width: 200px;
-                min-height: 250px;
-            }
-
-            /* Scrolling Covers Mobile */
-            .scrolling-covers {
-                height: 25vh;
-                min-height: 120px;
-                max-height: 200px;
-            }
-
-            /* Section Title Mobile */
-            .section-title {
-                font-size: 2.5rem;
-                margin-bottom: 2rem;
-                padding: 0 1rem;
-            }
-
-            /* Comic Pages Grid Mobile */
-            .comic-pages {
-                grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-                gap: 1rem;
-                padding: 1rem;
-            }
-
-            .comic-pages-section {
-                padding: 2rem 1rem;
-            }
-
-            /* Panel Numbers Mobile - Larger for touch */
-            .panel-number {
-                top: 15px;
-                right: 15px;
-                padding: 6px 12px;
-                font-size: 0.8rem;
-                border-radius: 15px;
-            }
-
-            /* Modal Mobile */
-            .modal-content {
-                max-width: 95%;
-                max-height: 80%;
-                margin-top: 10vh;
-            }
-
-            .close {
-                font-size: 2rem;
-                padding: 15px;
-                top: 10px;
-                right: 15px;
-            }
-
-            /* Footer Mobile */
-            .footer {
-                padding: 1rem;
-                font-size: 0.8rem;
-            }
-        }
-
-        @media (max-width: 480px) {
-            /* Small Mobile Devices */
-            .hero-main-title h1 {
-                font-size: 2.2rem;
-                letter-spacing: 0.03em;
-            }
-
-            .nerd-token-link a {
-                font-size: 1.5rem;
-                padding: 0.8rem 1.5rem;
-            }
-
-            .buy-text {
-                font-size: 0.6rem;
-            }
-
-            /* Single column for very small screens */
-            .comic-pages {
-                grid-template-columns: 1fr;
-                gap: 0.8rem;
-                padding: 0.5rem;
-            }
-
-            .section-title {
-                font-size: 2rem;
-                letter-spacing: 0.1em;
-            }
-
-            /* Scrolling covers smaller on tiny screens */
-            .scrolling-covers {
-                height: 20vh;
-                min-height: 100px;
-                max-height: 150px;
-            }
-
-            /* Hero carousel even smaller */
-            .hero-carousel img {
-                width: 70vw;
-                height: 90vw;
-                max-width: 250px;
-                max-height: 320px;
-                min-width: 150px;
-                min-height: 200px;
-            }
-        }
-
-        /* Touch-specific improvements */
-        @media (hover: none) and (pointer: coarse) {
-            /* Touch devices - remove hover effects that don't work */
-            .comic-panel:hover {
-                transform: none;
-                box-shadow: 0 15px 40px rgba(0,0,0,0.6);
-            }
-
-            .comic-panel:hover img {
-                transform: none;
-            }
-
-            .scrolling-covers img:hover {
-                opacity: 0.9;
-            }
-
-            /* Make touch targets larger */
-            .comic-panel {
-                cursor: pointer;
-                touch-action: manipulation;
-            }
-
-            /* Improve touch feedback for dragging */
-            .comic-panel:active {
-                transform: scale(0.98);
-                transition: transform 0.1s ease;
-            }
         }
 
         .scroll-indicator {
@@ -888,9 +728,8 @@
             });
         }
 
-        // Add drag and drop functionality to panels (mobile-optimized)
+        // Add drag and drop functionality to panels
         function addDragDropListeners(panel) {
-            // Desktop drag and drop
             panel.addEventListener('dragstart', (e) => {
                 panel.classList.add('dragging');
                 e.dataTransfer.setData('text/plain', panel.dataset.index);
@@ -919,73 +758,6 @@
                 if (draggedIndex !== targetIndex) {
                     reorderPanels(draggedIndex, targetIndex);
                 }
-            });
-
-            // Mobile touch drag and drop
-            let touchStartIndex = null;
-            let isDraggingTouch = false;
-
-            panel.addEventListener('touchstart', (e) => {
-                touchStartIndex = parseInt(panel.dataset.index);
-                isDraggingTouch = false;
-                
-                // Add a small delay to distinguish between scroll and drag
-                setTimeout(() => {
-                    if (touchStartIndex !== null) {
-                        isDraggingTouch = true;
-                        panel.classList.add('dragging');
-                    }
-                }, 200);
-            }, { passive: true });
-
-            panel.addEventListener('touchmove', (e) => {
-                if (isDraggingTouch) {
-                    e.preventDefault();
-                    
-                    // Get the element being touched
-                    const touch = e.touches[0];
-                    const elementBelow = document.elementFromPoint(touch.clientX, touch.clientY);
-                    const targetPanel = elementBelow?.closest('.comic-panel');
-                    
-                    // Remove drag-over from all panels
-                    document.querySelectorAll('.comic-panel').forEach(p => p.classList.remove('drag-over'));
-                    
-                    // Add drag-over to target panel
-                    if (targetPanel && targetPanel !== panel) {
-                        targetPanel.classList.add('drag-over');
-                    }
-                }
-            }, { passive: false });
-
-            panel.addEventListener('touchend', (e) => {
-                if (isDraggingTouch) {
-                    e.preventDefault();
-                    
-                    const touch = e.changedTouches[0];
-                    const elementBelow = document.elementFromPoint(touch.clientX, touch.clientY);
-                    const targetPanel = elementBelow?.closest('.comic-panel');
-                    
-                    panel.classList.remove('dragging');
-                    document.querySelectorAll('.comic-panel').forEach(p => p.classList.remove('drag-over'));
-                    
-                    if (targetPanel && targetPanel !== panel) {
-                        const targetIndex = parseInt(targetPanel.dataset.index);
-                        if (touchStartIndex !== targetIndex) {
-                            reorderPanels(touchStartIndex, targetIndex);
-                        }
-                    }
-                }
-                
-                touchStartIndex = null;
-                isDraggingTouch = false;
-            }, { passive: false });
-
-            // Cancel touch drag on scroll
-            panel.addEventListener('touchcancel', () => {
-                touchStartIndex = null;
-                isDraggingTouch = false;
-                panel.classList.remove('dragging');
-                document.querySelectorAll('.comic-panel').forEach(p => p.classList.remove('drag-over'));
             });
         }
 

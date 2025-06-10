@@ -943,14 +943,8 @@
 
     <div class="modal" id="modal">
         <span class="close" id="closeModal">&times;</span>
-        <button class="modal-nav modal-prev" id="modalPrev">‹</button>
-        <button class="modal-nav modal-next" id="modalNext">›</button>
-        <div class="zoom-indicator" id="zoomIndicator">Double-click to zoom</div>
-        <div class="modal-info" id="modalInfo">Panel 1 of 24</div>
-        <div class="modal-container" id="modalContainer">
-            <div class="modal-content" id="modalContent">
-                <img id="modalImage" src="" alt="Comic Image">
-            </div>
+        <div class="modal-content">
+            <img id="modalImage" src="" alt="Comic Image">
         </div>
     </div>
 
@@ -1033,7 +1027,7 @@
                 addDragDropListeners(panel);
                 
                 // Add click to view functionality
-                img.addEventListener('click', () => openModal(panelData.path, index));
+                img.addEventListener('click', () => openModal(panelData.path));
                 
                 comicPagesContainer.appendChild(panel);
             });
@@ -1180,237 +1174,31 @@
 
 
 
-        // Enhanced Modal System with Zoom, Pan, and Navigation
         const modal = document.getElementById('modal');
         const modalImage = document.getElementById('modalImage');
         const closeModal = document.getElementById('closeModal');
-        const modalContainer = document.getElementById('modalContainer');
-        const modalContent = document.getElementById('modalContent');
-        const modalPrev = document.getElementById('modalPrev');
-        const modalNext = document.getElementById('modalNext');
-        const modalInfo = document.getElementById('modalInfo');
-        const zoomIndicator = document.getElementById('zoomIndicator');
 
-        let currentPanelIndex = 0;
-        let isZoomed = false;
-        let scale = 1;
-        let translateX = 0;
-        let translateY = 0;
-        let startX, startY, initialTranslateX, initialTranslateY;
-        let isDragging = false;
-
-        function openModal(imageSrc, panelIndex = 0) {
-            currentPanelIndex = panelIndex;
+        function openModal(imageSrc) {
             modal.style.display = 'block';
             modalImage.src = imageSrc;
             document.body.style.overflow = 'hidden';
-            
-            // Reset zoom and position
-            resetZoom();
-            updateModalInfo();
-            updateNavigationButtons();
-            
-            // Show zoom indicator briefly
-            showZoomIndicator();
         }
 
         function closeModalFunc() {
             modal.style.display = 'none';
             document.body.style.overflow = 'auto';
-            resetZoom();
         }
 
-        function resetZoom() {
-            isZoomed = false;
-            scale = 1;
-            translateX = 0;
-            translateY = 0;
-            modalContent.classList.remove('zoomed', 'grabbing');
-            updateTransform();
-        }
-
-        function updateTransform() {
-            modalContent.style.transform = `translate(${translateX}px, ${translateY}px) scale(${scale})`;
-        }
-
-        function updateModalInfo() {
-            modalInfo.textContent = `Panel ${currentPanelIndex + 1} of ${pilotImages.length}`;
-        }
-
-        function updateNavigationButtons() {
-            modalPrev.style.display = currentPanelIndex > 0 ? 'flex' : 'none';
-            modalNext.style.display = currentPanelIndex < pilotImages.length - 1 ? 'flex' : 'none';
-        }
-
-        function showZoomIndicator() {
-            zoomIndicator.classList.add('show');
-            setTimeout(() => {
-                zoomIndicator.classList.remove('show');
-            }, 2000);
-        }
-
-        function navigateModal(direction) {
-            const newIndex = currentPanelIndex + direction;
-            if (newIndex >= 0 && newIndex < pilotImages.length) {
-                currentPanelIndex = newIndex;
-                modalImage.src = pilotImages[currentPanelIndex].path;
-                resetZoom();
-                updateModalInfo();
-                updateNavigationButtons();
-            }
-        }
-
-        // Event Listeners
         closeModal.addEventListener('click', closeModalFunc);
-        modalPrev.addEventListener('click', () => navigateModal(-1));
-        modalNext.addEventListener('click', () => navigateModal(1));
-
-        // Double-click to zoom
-        modalImage.addEventListener('dblclick', (e) => {
-            e.preventDefault();
-            
-            if (!isZoomed) {
-                // Zoom in
-                isZoomed = true;
-                scale = 2.5;
-                modalContent.classList.add('zoomed');
-                
-                // Calculate zoom position based on click position
-                const rect = modalImage.getBoundingClientRect();
-                const clickX = e.clientX - rect.left - rect.width / 2;
-                const clickY = e.clientY - rect.top - rect.height / 2;
-                
-                translateX = -clickX * (scale - 1);
-                translateY = -clickY * (scale - 1);
-                
-                zoomIndicator.textContent = 'Double-click to zoom out';
-                showZoomIndicator();
-            } else {
-                // Zoom out
-                resetZoom();
-                zoomIndicator.textContent = 'Double-click to zoom';
-                showZoomIndicator();
-            }
-            
-            updateTransform();
-        });
-
-        // Pan functionality when zoomed
-        modalContainer.addEventListener('mousedown', (e) => {
-            if (!isZoomed) return;
-            
-            isDragging = true;
-            modalContent.classList.add('grabbing');
-            modalContainer.classList.add('grabbing');
-            
-            startX = e.clientX;
-            startY = e.clientY;
-            initialTranslateX = translateX;
-            initialTranslateY = translateY;
-            
-            e.preventDefault();
-        });
-
-        document.addEventListener('mousemove', (e) => {
-            if (!isDragging || !isZoomed) return;
-            
-            translateX = initialTranslateX + (e.clientX - startX);
-            translateY = initialTranslateY + (e.clientY - startY);
-            updateTransform();
-        });
-
-        document.addEventListener('mouseup', () => {
-            if (isDragging) {
-                isDragging = false;
-                modalContent.classList.remove('grabbing');
-                modalContainer.classList.remove('grabbing');
-            }
-        });
-
-        // Touch events for mobile
-        modalContainer.addEventListener('touchstart', (e) => {
-            if (e.touches.length === 1 && isZoomed) {
-                // Single touch pan
-                isDragging = true;
-                modalContent.classList.add('grabbing');
-                
-                const touch = e.touches[0];
-                startX = touch.clientX;
-                startY = touch.clientY;
-                initialTranslateX = translateX;
-                initialTranslateY = translateY;
-                
-                e.preventDefault();
-            }
-        });
-
-        modalContainer.addEventListener('touchmove', (e) => {
-            if (e.touches.length === 1 && isDragging && isZoomed) {
-                const touch = e.touches[0];
-                translateX = initialTranslateX + (touch.clientX - startX);
-                translateY = initialTranslateY + (touch.clientY - startY);
-                updateTransform();
-                e.preventDefault();
-            }
-        });
-
-        modalContainer.addEventListener('touchend', () => {
-            if (isDragging) {
-                isDragging = false;
-                modalContent.classList.remove('grabbing');
-            }
-        });
-
-        // Swipe navigation for mobile
-        let touchStartXNav = 0;
-        let touchStartTime = 0;
-
-        modal.addEventListener('touchstart', (e) => {
-            if (!isZoomed && e.touches.length === 1) {
-                touchStartXNav = e.touches[0].clientX;
-                touchStartTime = Date.now();
-            }
-        });
-
-        modal.addEventListener('touchend', (e) => {
-            if (!isZoomed && e.changedTouches.length === 1) {
-                const touchEndX = e.changedTouches[0].clientX;
-                const touchDuration = Date.now() - touchStartTime;
-                const swipeDistance = touchStartXNav - touchEndX;
-                
-                // Only trigger swipe if it's a quick gesture (< 300ms) and sufficient distance (> 50px)
-                if (touchDuration < 300 && Math.abs(swipeDistance) > 50) {
-                    if (swipeDistance > 0) {
-                        // Swipe left - next panel
-                        navigateModal(1);
-                    } else {
-                        // Swipe right - previous panel
-                        navigateModal(-1);
-                    }
-                }
-            }
-        });
-
-        // Keyboard navigation
-        document.addEventListener('keydown', (e) => {
-            if (modal.style.display === 'block') {
-                switch(e.key) {
-                    case 'Escape':
-                        closeModalFunc();
-                        break;
-                    case 'ArrowLeft':
-                        navigateModal(-1);
-                        break;
-                    case 'ArrowRight':
-                        navigateModal(1);
-                        break;
-                }
-            }
-        });
-
-        // Close modal when clicking outside content
+        
         modal.addEventListener('click', (e) => {
-            if (e.target === modal || e.target === modalContainer) {
+            if (e.target === modal) {
+                closeModalFunc();
+            }
+        });
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
                 closeModalFunc();
             }
         });

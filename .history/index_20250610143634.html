@@ -574,17 +574,11 @@
             border-right: 1px solid #ffd700;
             flex-shrink: 0;
             opacity: 0.9;
-            transition: all 0.3s ease;
-            cursor: pointer;
+            transition: opacity 0.3s ease;
         }
 
         .scrolling-covers img:hover {
             opacity: 1;
-            transform: scale(1.05);
-            box-shadow: 0 4px 16px rgba(255,215,0,0.4);
-            border-right: 2px solid #ffd700;
-            z-index: 10;
-            position: relative;
         }
 
         .scrolling-covers img:hover {
@@ -1198,8 +1192,6 @@
         const zoomIndicator = document.getElementById('zoomIndicator');
 
         let currentPanelIndex = 0;
-        let currentMode = 'panels'; // 'panels' or 'covers'
-        let allCovers = []; // Will store all cover data
         let isZoomed = false;
         let scale = 1;
         let translateX = 0;
@@ -1207,9 +1199,8 @@
         let startX, startY, initialTranslateX, initialTranslateY;
         let isDragging = false;
 
-        function openModal(imageSrc, panelIndex = 0, mode = 'panels') {
+        function openModal(imageSrc, panelIndex = 0) {
             currentPanelIndex = panelIndex;
-            currentMode = mode;
             modal.style.display = 'block';
             modalImage.src = imageSrc;
             document.body.style.overflow = 'hidden';
@@ -1243,17 +1234,12 @@
         }
 
         function updateModalInfo() {
-            if (currentMode === 'covers') {
-                modalInfo.textContent = `Cover ${currentPanelIndex + 1} of ${allCovers.length}`;
-            } else {
-                modalInfo.textContent = `Panel ${currentPanelIndex + 1} of ${pilotImages.length}`;
-            }
+            modalInfo.textContent = `Panel ${currentPanelIndex + 1} of ${pilotImages.length}`;
         }
 
         function updateNavigationButtons() {
-            const maxIndex = currentMode === 'covers' ? allCovers.length - 1 : pilotImages.length - 1;
             modalPrev.style.display = currentPanelIndex > 0 ? 'flex' : 'none';
-            modalNext.style.display = currentPanelIndex < maxIndex ? 'flex' : 'none';
+            modalNext.style.display = currentPanelIndex < pilotImages.length - 1 ? 'flex' : 'none';
         }
 
         function showZoomIndicator() {
@@ -1264,18 +1250,10 @@
         }
 
         function navigateModal(direction) {
-            const maxIndex = currentMode === 'covers' ? allCovers.length - 1 : pilotImages.length - 1;
             const newIndex = currentPanelIndex + direction;
-            
-            if (newIndex >= 0 && newIndex <= maxIndex) {
+            if (newIndex >= 0 && newIndex < pilotImages.length) {
                 currentPanelIndex = newIndex;
-                
-                if (currentMode === 'covers') {
-                    modalImage.src = allCovers[currentPanelIndex].path;
-                } else {
-                    modalImage.src = pilotImages[currentPanelIndex].path;
-                }
-                
+                modalImage.src = pilotImages[currentPanelIndex].path;
                 resetZoom();
                 updateModalInfo();
                 updateNavigationButtons();
@@ -1479,21 +1457,6 @@
         // Create scrolling covers section with all covers
         function createScrollingCovers() {
             const scrollingContainer = document.getElementById('scrollingCovers');
-            const scrollingSection = document.querySelector('.scrolling-covers-section');
-            
-            // Initialize allCovers array for modal navigation
-            allCovers = [];
-            
-            // Create covers data for modal navigation (only first cycle)
-            for (let i = 1; i <= 72; i++) {
-                const paddedNumber = i.toString().padStart(2, '0');
-                const imagePath = `overnerd-comic-images/covers/cover-${paddedNumber}.jpg`;
-                allCovers.push({
-                    path: imagePath,
-                    index: i - 1,
-                    name: `Cover ${paddedNumber}`
-                });
-            }
             
             // Use all 72 covers twice for seamless scrolling
             for (let cycle = 0; cycle < 2; cycle++) {
@@ -1505,76 +1468,10 @@
                     img.src = imagePath;
                     img.alt = `Cover ${i}`;
                     img.loading = 'lazy';
-                    img.style.cursor = 'pointer';
-                    
-                    // Add click handler to open in modal (use original index for first cycle only)
-                    if (cycle === 0) {
-                        img.addEventListener('click', () => {
-                            openModal(imagePath, i - 1, 'covers');
-                        });
-                    } else {
-                        // For the second cycle, map back to original indices
-                        img.addEventListener('click', () => {
-                            openModal(imagePath, i - 1, 'covers');
-                        });
-                    }
                     
                     scrollingContainer.appendChild(img);
                 }
             }
-            
-            // Add swipe functionality to speed up scrolling
-            let touchStartX = 0;
-            let scrollStartTime = 0;
-            let isSwipeScrolling = false;
-            
-            scrollingSection.addEventListener('touchstart', (e) => {
-                touchStartX = e.touches[0].clientX;
-                scrollStartTime = Date.now();
-                isSwipeScrolling = false;
-            });
-            
-            scrollingSection.addEventListener('touchmove', (e) => {
-                const touchCurrentX = e.touches[0].clientX;
-                const swipeDistance = touchStartX - touchCurrentX;
-                const swipeTime = Date.now() - scrollStartTime;
-                
-                // Detect left swipe (swipe distance > 30px and quick)
-                if (swipeDistance > 30 && swipeTime < 300) {
-                    isSwipeScrolling = true;
-                    
-                    // Speed up the animation temporarily
-                    scrollingContainer.style.animationDuration = '20s';
-                    
-                    // Reset to normal speed after 3 seconds
-                    setTimeout(() => {
-                        scrollingContainer.style.animationDuration = '120s';
-                    }, 3000);
-                    
-                    e.preventDefault();
-                }
-            });
-            
-            scrollingSection.addEventListener('touchend', () => {
-                // Reset if no swipe was detected
-                if (!isSwipeScrolling) {
-                    scrollingContainer.style.animationDuration = '120s';
-                }
-            });
-            
-            // Add mouse wheel support for desktop
-            scrollingSection.addEventListener('wheel', (e) => {
-                if (e.deltaX > 0 || e.deltaY > 0) {
-                    // Scrolling left or down - speed up
-                    scrollingContainer.style.animationDuration = '40s';
-                    
-                    // Reset after 2 seconds
-                    setTimeout(() => {
-                        scrollingContainer.style.animationDuration = '120s';
-                    }, 2000);
-                }
-                e.preventDefault();
-            });
         }
 
         // Create hero carousel with cover images - 5 minute cycles

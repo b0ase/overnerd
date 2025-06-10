@@ -149,47 +149,6 @@
             transform: translate(-50%, -50%);
             z-index: 20;
             pointer-events: none;
-            text-align: center;
-        }
-
-        .hero-main-title {
-            margin-bottom: 2rem;
-        }
-
-        .hero-main-title h1 {
-            font-size: 5rem;
-            font-weight: 900;
-            color: #ffffff;
-            text-shadow: 
-                0 0 5px #ffd700,
-                0 0 10px #ffd700,
-                2px 2px 0px #000000,
-                4px 4px 0px rgba(0,0,0,0.5);
-            letter-spacing: 0.1em;
-            text-transform: uppercase;
-            margin: 0;
-            animation: heroTitlePulse 3s ease-in-out infinite alternate;
-            background: linear-gradient(45deg, #ffffff, #ffd700, #ffffff);
-            background-clip: text;
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        @keyframes heroTitlePulse {
-            0% { 
-                text-shadow: 
-                    0 0 5px #ffd700,
-                    0 0 10px #ffd700,
-                    2px 2px 0px #000000,
-                    4px 4px 0px rgba(0,0,0,0.5);
-            }
-            100% { 
-                text-shadow: 
-                    0 0 8px #ffd700,
-                    0 0 15px #ffd700,
-                    2px 2px 0px #000000,
-                    4px 4px 0px rgba(0,0,0,0.5);
-            }
         }
 
         .nerd-token-link {
@@ -378,8 +337,8 @@
         }
 
         .scrolling-covers-section {
-            background: transparent;
-            padding: 0;
+            background: rgba(0,0,0,0.9);
+            padding: 2rem 0;
             overflow: hidden;
             border-top: 2px solid #ffd700;
             border-bottom: 2px solid #ffd700;
@@ -387,23 +346,23 @@
 
         .scrolling-covers {
             display: flex;
-            animation: scrollLeft 120s linear infinite;
-            gap: 0;
-            height: 30vw;
-            min-height: 180px;
-            max-height: 300px;
-            width: 200%;
+            animation: scrollLeft 60s linear infinite;
+            gap: 1rem;
         }
 
         .scrolling-covers img {
-            height: 100%;
-            width: auto;
-            object-fit: contain;
-            border-radius: 0;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.3);
-            border-right: 1px solid #ffd700;
+            width: 12.5vw;
+            height: 16vw;
+            max-width: 120px;
+            max-height: 160px;
+            min-width: 80px;
+            min-height: 100px;
+            object-fit: cover;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+            border: 1px solid rgba(255,255,255,0.2);
             flex-shrink: 0;
-            opacity: 0.9;
+            opacity: 0.8;
             transition: opacity 0.3s ease;
         }
 
@@ -411,12 +370,8 @@
             opacity: 1;
         }
 
-        .scrolling-covers img:hover {
-            opacity: 1;
-        }
-
         @keyframes scrollLeft {
-            0% { transform: translateX(0%); }
+            0% { transform: translateX(100%); }
             100% { transform: translateX(-100%); }
         }
 
@@ -471,7 +426,66 @@
             opacity: 0.8;
         }
 
+        .gallery-section {
+            padding: 4rem 2rem;
+            background: rgba(0,0,0,0.1);
+            backdrop-filter: blur(10px);
+        }
 
+        .gallery-title {
+            text-align: center;
+            font-size: 3rem;
+            margin-bottom: 3rem;
+            color: white;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        }
+
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .comic-card {
+            background: rgba(255,255,255,0.1);
+            border-radius: 15px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.2);
+            cursor: pointer;
+        }
+
+        .comic-card:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+            background: rgba(255,255,255,0.2);
+        }
+
+        .comic-card img {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+
+        .comic-card:hover img {
+            transform: scale(1.1);
+        }
+
+        .comic-info {
+            padding: 1.5rem;
+            text-align: center;
+        }
+
+        .comic-title {
+            font-size: 1.2rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+            color: #ffd700;
+        }
 
         .modal {
             display: none;
@@ -608,7 +622,11 @@
         </div>
     </div>
 
-
+    <div class="gallery-section">
+        <h2 class="gallery-title">Cover Gallery</h2>
+        <div class="gallery" id="gallery">
+        </div>
+    </div>
 
     <div class="modal" id="modal">
         <span class="close" id="closeModal">&times;</span>
@@ -662,7 +680,35 @@
             });
         }
 
-
+        // Create gallery for covers only
+        function createGallery() {
+            const gallery = document.getElementById('gallery');
+            
+            coverImages.forEach((imagePath, index) => {
+                const card = document.createElement('div');
+                card.className = 'comic-card';
+                
+                const img = document.createElement('img');
+                img.src = imagePath;
+                img.alt = `OVERNERD Cover ${index + 1}`;
+                img.loading = 'lazy';
+                
+                const info = document.createElement('div');
+                info.className = 'comic-info';
+                
+                const title = document.createElement('div');
+                title.className = 'comic-title';
+                title.textContent = `Cover #${index + 1}`;
+                
+                info.appendChild(title);
+                card.appendChild(img);
+                card.appendChild(info);
+                
+                card.addEventListener('click', () => openModal(imagePath));
+                
+                gallery.appendChild(card);
+            });
+        }
 
         const modal = document.getElementById('modal');
         const modalImage = document.getElementById('modalImage');
@@ -736,19 +782,17 @@
         function createScrollingCovers() {
             const scrollingContainer = document.getElementById('scrollingCovers');
             
-            // Use all 72 covers twice for seamless scrolling
-            for (let cycle = 0; cycle < 2; cycle++) {
-                for (let i = 1; i <= 72; i++) {
-                    const paddedNumber = i.toString().padStart(2, '0');
-                    const imagePath = `overnerd-comic-images/covers/cover-${paddedNumber}.jpg`;
-                    
-                    const img = document.createElement('img');
-                    img.src = imagePath;
-                    img.alt = `Cover ${i}`;
-                    img.loading = 'lazy';
-                    
-                    scrollingContainer.appendChild(img);
-                }
+            // Use all 72 covers for scrolling
+            for (let i = 1; i <= 72; i++) {
+                const paddedNumber = i.toString().padStart(2, '0');
+                const imagePath = `overnerd-comic-images/covers/cover-${paddedNumber}.jpg`;
+                
+                const img = document.createElement('img');
+                img.src = imagePath;
+                img.alt = `Cover ${i}`;
+                img.loading = 'lazy';
+                
+                scrollingContainer.appendChild(img);
             }
         }
 
@@ -887,6 +931,7 @@
             createHeroCarousel();
             createScrollingCovers();
             createComicPages();
+            createGallery();
         });
 
         document.addEventListener('mousemove', (e) => {

@@ -662,7 +662,35 @@
             });
         }
 
-
+        // Create gallery for covers only
+        function createGallery() {
+            const gallery = document.getElementById('gallery');
+            
+            coverImages.forEach((imagePath, index) => {
+                const card = document.createElement('div');
+                card.className = 'comic-card';
+                
+                const img = document.createElement('img');
+                img.src = imagePath;
+                img.alt = `OVERNERD Cover ${index + 1}`;
+                img.loading = 'lazy';
+                
+                const info = document.createElement('div');
+                info.className = 'comic-info';
+                
+                const title = document.createElement('div');
+                title.className = 'comic-title';
+                title.textContent = `Cover #${index + 1}`;
+                
+                info.appendChild(title);
+                card.appendChild(img);
+                card.appendChild(info);
+                
+                card.addEventListener('click', () => openModal(imagePath));
+                
+                gallery.appendChild(card);
+            });
+        }
 
         const modal = document.getElementById('modal');
         const modalImage = document.getElementById('modalImage');
@@ -887,6 +915,7 @@
             createHeroCarousel();
             createScrollingCovers();
             createComicPages();
+            createGallery();
         });
 
         document.addEventListener('mousemove', (e) => {

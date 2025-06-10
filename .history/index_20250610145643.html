@@ -1476,49 +1476,51 @@
             });
         }
 
-        // Create scrolling covers section with available covers
+        // Create scrolling covers section with all covers
         function createScrollingCovers() {
             const scrollingContainer = document.getElementById('scrollingCovers');
             const scrollingSection = document.querySelector('.scrolling-covers-section');
             
-            // Define available covers (only ones that actually exist)
-            const availableCovers = [
-                '01', '02', '03', '04', '05', '06', '07', '09', '22', '25', '26', '31',
-                '41', '42', '43', '44', '45', '46', '49', '57', '59', '62', '63', '64',
-                '65', '66', '67', '68', '69', '70', '71', '72'
-            ];
-            
             // Initialize allCovers array for modal navigation
             allCovers = [];
             
-            // Create covers data for modal navigation using only available covers
-            availableCovers.forEach((coverNum, index) => {
-                const imagePath = `overnerd-comic-images/covers/cover-${coverNum}.jpg`;
+            // Create covers data for modal navigation (only first cycle)
+            for (let i = 1; i <= 72; i++) {
+                const paddedNumber = i.toString().padStart(2, '0');
+                const imagePath = `overnerd-comic-images/covers/cover-${paddedNumber}.jpg`;
                 allCovers.push({
                     path: imagePath,
-                    index: index,
-                    name: `Cover ${coverNum}`
+                    index: i - 1,
+                    name: `Cover ${paddedNumber}`
                 });
-            });
+            }
             
-            // Use available covers twice for seamless scrolling
+            // Use all 72 covers twice for seamless scrolling
             for (let cycle = 0; cycle < 2; cycle++) {
-                availableCovers.forEach((coverNum, index) => {
-                    const imagePath = `overnerd-comic-images/covers/cover-${coverNum}.jpg`;
+                for (let i = 1; i <= 72; i++) {
+                    const paddedNumber = i.toString().padStart(2, '0');
+                    const imagePath = `overnerd-comic-images/covers/cover-${paddedNumber}.jpg`;
                     
                     const img = document.createElement('img');
                     img.src = imagePath;
-                    img.alt = `Cover ${coverNum}`;
+                    img.alt = `Cover ${i}`;
                     img.loading = 'lazy';
                     img.style.cursor = 'pointer';
                     
-                    // Add click handler to open in modal
-                    img.addEventListener('click', () => {
-                        openModal(imagePath, index, 'covers');
-                    });
+                    // Add click handler to open in modal (use original index for first cycle only)
+                    if (cycle === 0) {
+                        img.addEventListener('click', () => {
+                            openModal(imagePath, i - 1, 'covers');
+                        });
+                    } else {
+                        // For the second cycle, map back to original indices
+                        img.addEventListener('click', () => {
+                            openModal(imagePath, i - 1, 'covers');
+                        });
+                    }
                     
                     scrollingContainer.appendChild(img);
-                });
+                }
             }
             
             // Add swipe functionality to speed up scrolling
@@ -1579,13 +1581,13 @@
         function createHeroCarousel() {
             const heroCarousel = document.getElementById('heroCarousel');
             
-            // Use available covers for floating images with 5-minute cycles
+            // Use fewer floating images with 5-minute cycles
             const carouselImages = [
-                'overnerd-comic-images/covers/cover-02.jpg',
-                'overnerd-comic-images/covers/cover-25.jpg',
+                'overnerd-comic-images/covers/cover-12.jpg',
+                'overnerd-comic-images/covers/cover-28.jpg',
                 'overnerd-comic-images/covers/cover-44.jpg',
-                'overnerd-comic-images/covers/cover-63.jpg',
-                'overnerd-comic-images/covers/cover-09.jpg'
+                'overnerd-comic-images/covers/cover-60.jpg',
+                'overnerd-comic-images/covers/cover-16.jpg'
             ];
             
             carouselImages.forEach((imagePath, index) => {
